@@ -9,9 +9,9 @@ subdomain. It also contains a way for overriding the "site" in url helpers.
 
 2. Add your domains to your /etc/hosts file for development:
 
-    127.0.0.1 www.mysite.localhost # default locale
-    127.0.0.1 www.it.mysite.localhost
-    127.0.0.1 www.ca.mysite.localhost
+     127.0.0.1 www.mysite.localhost # default locale
+     127.0.0.1 www.it.mysite.localhost
+     127.0.0.1 www.ca.mysite.localhost
 
 3. Create your "change locale widget" using simple url helpers:
 
@@ -19,7 +19,7 @@ subdomain. It also contains a way for overriding the "site" in url helpers.
     root_url(:site => :it) # => http://www.it.mysite.com/
     root_url(:site => :ca) # => http://www.ca.mysite.com/
 
-    OR to keep the current locale:
+OR to keep the current locale:
 
     root_url # => http://www.<whatever the current site is>.mysite.com
 
