@@ -8,7 +8,7 @@ require 'localized/helper'
 
 # load the modules into the rails world
 [
-  ActionView::Helpers::UrlHelper, 
+  ActionView::Base, 
   ActionController::Base
 ].each { |mod| mod.send :include, Localized::Helper }
 
