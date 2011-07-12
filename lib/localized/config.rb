@@ -4,7 +4,8 @@ module Localized::Config
   def self.configuration
     @configuration ||= begin
       config_file = File.expand_path(File.join(Rails.root.to_s,'/config/localized.yml'))
-      defaults = YAML.load_file('config/defaults.yml')
+      defaults_file = File.expand_path(File.join(__FILE__, '..', '..', '..', 'config/defaults.yml'))
+      defaults = YAML.load_file(defaults_file)
       custom   = YAML.load_file(config_file) if File.exists?(config_file)
       symobolize_keys_and_values(defaults.merge(custom || {}))
     end.symbolize_keys

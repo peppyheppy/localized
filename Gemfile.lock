@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    localized (0.0.1)
+    localized (0.0.2)
       rails (>= 3.0)
 
 GEM
