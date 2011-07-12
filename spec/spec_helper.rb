@@ -11,3 +11,14 @@ class Application < Rails::Application
 end
 Application.initialize!
 
+class FoobarController < ::ActionController::Base
+  def test
+    render :text => 'success'
+  end
+end
+
+Rails.application.routes.draw do
+  get '/test' => 'foobar#test', :as => :test
+  root :to => "foobar#test"
+end
+

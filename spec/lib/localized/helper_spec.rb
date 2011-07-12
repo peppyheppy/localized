@@ -1,24 +1,8 @@
 require 'spec_helper'
 
-class FoobarController < ::ActionController::Base
-  def test
-    render :text => 'success'
-  end
-end
-
 describe FoobarController , "locale specific routes", :type => :controller do
   before :all do
     Rails.stub(:root).and_return(Pathname.new(File.join(File.dirname(__FILE__),'..', '..')))
-    Rails.application.routes.draw do
-      get '/test' => 'foobar#test', :as => :test
-      root :to => "foobar#test"
-    end
-  end
-
-  after :all do
-    silence_warnings do
-      Rails.application.reload_routes!
-    end
   end
 
   describe "sites and subdomain" do
