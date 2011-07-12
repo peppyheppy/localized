@@ -23,15 +23,15 @@ describe FoobarController , "locale specific routes", :type => :controller do
 
   describe "sites and subdomain" do
     before :each do
-      @request.host = "www.roadrunnerrecords.test"
+      @request.host = "www.mysite.test"
     end
 
     it "should have the regular tests host" do
-      root_url.should == 'http://www.roadrunnerrecords.test/'
+      root_url.should == 'http://www.mysite.test/'
     end
 
     it "should have the default host prefix and default locale" do
-      root_url(:site => 'us').should == 'http://www.roadrunnerrecords.test/'
+      root_url(:site => 'us').should == 'http://www.mysite.test/'
     end
 
     it "should error if site is not supported" do
@@ -41,13 +41,13 @@ describe FoobarController , "locale specific routes", :type => :controller do
     end
 
     it "should allow for locale override" do
-      root_url(:site => 'it').should == 'http://www.it.roadrunnerrecords.test/'
+      root_url(:site => 'it').should == 'http://www.it.mysite.test/'
     end
 
     it "should set the default site when Locale is set" do
       original_locale = I18n.locale
       I18n.locale = Localized::Config.site_to_locale_map[:es]
-      root_url.should == 'http://www.es.roadrunnerrecords.test/'
+      root_url.should == 'http://www.es.mysite.test/'
       I18n.locale = original_locale
     end
 
