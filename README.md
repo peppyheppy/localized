@@ -32,9 +32,12 @@ easier than if a user was using YAML.
 
         Localized::Convert.to_csv('/a/file.csv')
 
-Coming soon... #from_csv
+## TODO
 
-Comeing
+1. #from_csv
+
+2. Support for google docs so translations can be synchronized
+
 
 ## Contributing
 
