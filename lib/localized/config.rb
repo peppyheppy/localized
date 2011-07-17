@@ -25,8 +25,8 @@ module Localized::Config
 
   def self.default_site
     @default_site ||= self.configuration[:default_site]
-  end  
-  
+  end
+
   def self.supported_sites
     @supported_sites ||= site_to_locale_map.symbolize_keys.keys.sort
   end
