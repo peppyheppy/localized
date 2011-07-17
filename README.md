@@ -1,4 +1,4 @@
-### Localized
+# Localized
 
 A simple gem for Rails 3 that helps set the locale for your application from a
 subdomain. It also contains a way for overriding the "site" in url helpers.
@@ -22,6 +22,19 @@ subdomain. It also contains a way for overriding the "site" in url helpers.
   OR to keep the current locale:
 
     root_url # => http://www.<whatever the current site is>.mysite.com
+
+## Other Features
+
+In addition to the runtime features, there is a feature for
+converting all of the locale files into a csv so it can be
+updated to Google docs (or Excel) and translations can be made
+easier than if a user was using YAML.
+
+        Localized::Convert.to_csv('/a/file.csv')
+
+Coming soon... #from_csv
+
+Comeing
 
 ## Contributing
 
