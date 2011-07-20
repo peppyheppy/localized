@@ -3,15 +3,16 @@ module Localized::Convert
 
   def self.to_csv(file)
     CSV.open(file, "wb") do |csv|
-      csv << ["Token", translations.keys.sort].flatten
+      csv << ["Token", *locale_columns]
       locale_cache.keys.sort.each do |token|
         row = [token]
-        locale_cache[token].keys.sort.each do |locale|
+        locale_columns.each do |locale|
           row << locale_cache[token][locale]
         end
         csv << row
       end
     end
+    nil
   end
 
   def self.load_cache
@@ -26,12 +27,11 @@ module Localized::Convert
   def self.locale_cache
     @locale_cache = begin
       rows = {}
-      columns = Hash[translations.keys.map{|l| [l, nil]}]
-      translations.keys.each do |locale| # each locale
-        translations[locale].each do |key, value| # each translation
-          key_string, value_string = formalize_keys(key, value)
-          rows[key_string] ||= columns
-          rows[key_string] = rows[key_string].merge(locale => value_string)
+      columns = Hash[locale_columns.map{|l| [l, nil]}]
+      Localized::Config.supported_locales.each do |locale| # each locale
+        formalize_keys(nil, (translations[locale] || {})).each do |(key, value)| # each translation
+          rows[key] ||= columns
+          rows[key] = rows[key].merge(locale => value)
         end
       end
       rows.reject { |k, r| r.values.compact.blank? }
@@ -41,16 +41,22 @@ module Localized::Convert
   private
 
   def self.formalize_keys(key, value)
-    key_string = key.to_s
-    value_string = nil
-    if value.is_a? Hash
-      value.each do |key, new_value|
-        key_string += ".#{key}"
-        key_string, value_string = formalize_keys(key_string, new_value)
+    pairs = []
+    if value.is_a?(Hash)
+      value.each do |new_key, new_value|
+        pairs << formalize_keys("#{key}#{key && "."}#{new_key}", new_value)
       end
-    else
-      value_string = value
+    elsif value.is_a? String
+      pairs << [key, value]
     end
-    [key_string, value_string]
+    Hash[*pairs.flatten].to_a
   end
+
+  def self.locale_columns
+    @locale_columns ||= [
+      Localized::Config.default_locale,
+      *Localized::Config.supported_locales.reject { |t| t == Localized::Config.default_locale }
+    ]
+  end
+
 end

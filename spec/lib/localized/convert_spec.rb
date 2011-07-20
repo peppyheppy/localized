@@ -2,7 +2,8 @@ require 'spec_helper'
 
 describe Localized::Convert do
   include Localized
-  before :all do
+  before :each do
+    Rails.stub!(:root).and_return(Pathname.new(File.join(File.dirname(__FILE__),'..', '..')))
     I18n.load_path = Dir[File.join('spec/config/locales/*.yml')]
   end
 
@@ -23,31 +24,66 @@ describe Localized::Convert do
       Convert.locale_cache['one.two.three'][:'es-ES'].should be_nil
     end
 
+    it "should have values set for one deep" do
+      Convert.locale_cache['five'][:'en-US'].should == 'special'
+    end
+
+    it "should have values set for two deep" do
+      Convert.locale_cache['one.four'][:'en-US'].should == 'hello'
+    end
+
+    it "should have values set for three deep" do
+      Convert.locale_cache['one.two.six'][:'en-US'].should == 'moroni'
+    end
+
+    it "should have values set for six deep" do
+      Convert.locale_cache['seven.eight.nine.ten.eleven'][:'en-US'].should == 'truth'
+    end
+
     it "should not have empty valueless keys" do
       Convert.locale_cache.should_not have_key 'one.two'
+    end
+
+    it "should have the same keys that are listed in the localized config file" do
+      Convert.locale_cache['one.two.three'].keys.sort.should == Localized::Config.supported_locales.sort
     end
   end
 
   describe "CSV export" do
     it "should convert the locale cache to a CSV file" do
       file = 'spec/test_csv.csv'
-      File.should_not exist file
+      #File.should_not exist file
       Convert.to_csv(file)
       File.should exist file
       rows = CSV.read(file)
       # header row
+      # ["Token", "en-US", "de-DE", "en-AU", "en-CA", "en-GB", "es-ES", "fr-FR", "it-IT", "ja-JP", "nl-NL", "sv-SE"]
       rows.first[0].should == "Token"
       rows.first[1].should == "en-US"
-      rows.first[2].should == "es-ES"
-      rows.first[3].should == "nl-NL"
-      rows.first[4].should be_nil
+      rows.first[2].should == "de-DE"
+      rows.first[3].should == "en-AU"
+      rows.first[4].should == "en-CA"
+      rows.first[5].should == "en-GB"
+      rows.first[6].should == "es-ES"
+      rows.first[7].should == "fr-FR"
+      rows.first[8].should == "it-IT"
+      rows.first[9].should == "ja-JP"
+      rows.first[10].should == "nl-NL"
+      rows.first[11].should == "sv-SE"
 
       # data row
-      rows.last[0].should == "one.two.three"
-      rows.last[1].should == "three"
+      # ["one.two.three", "three", nil, nil, nil, nil, nil, nil, nil, nil, nil, "another", nil]
+      rows.last[0].should == "seven.eight.nine.ten.eleven"
+      rows.last[1].should == "truth"
       rows.last[2].should be_nil
-      rows.last[3].should == "another"
+      rows.last[3].should be_nil
       rows.last[4].should be_nil
+      rows.last[5].should be_nil
+      rows.last[6].should be_nil
+      rows.last[7].should be_nil
+      rows.last[8].should be_nil
+      rows.last[9].should be_nil
+      rows.last[11].should be_nil
 
       File.delete(file)
     end
