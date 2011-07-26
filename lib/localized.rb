@@ -7,10 +7,10 @@ module Localized; end
 require 'localized/config'
 require 'localized/helper'
 require 'localized/convert'
+require 'bitfields'
 
 # load the modules into the rails world
 [
-  ActionView::Base, 
+  ActionView::Base,
   ActionController::Base
 ].each { |mod| mod.send :include, Localized::Helper }
-

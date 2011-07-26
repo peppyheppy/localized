@@ -1,7 +1,8 @@
 PATH
   remote: .
   specs:
-    localized (0.0.4)
+    localized (0.0.5)
+      bitfields (>= 0.4.0)
       rails (>= 3.0)
 
 GEM
@@ -37,11 +38,15 @@ GEM
     archive-tar-minitar (0.5.2)
     arel (1.0.1)
       activesupport (~> 3.0.0)
+    bitfields (0.4.0)
     builder (2.1.2)
     columnize (0.3.4)
     diff-lcs (1.1.2)
     erubis (2.6.6)
       abstract (>= 1.0.0)
+    generator_spec (0.8.3)
+      rails (~> 3.0)
+      rspec-rails
     i18n (0.4.2)
     linecache19 (0.5.12)
       ruby_core_source (>= 0.1.4)
@@ -103,6 +108,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  generator_spec
   localized!
   rspec (= 2.6.0)
   rspec-rails (= 2.6.0)

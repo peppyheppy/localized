@@ -9,8 +9,10 @@ Gem::Specification.new do |s|
   s.description = "This gem allows you to set locale using a subdomain and url helper support for switching sites."
   s.files       = s.files = `git ls-files`.split("\n")
   s.add_runtime_dependency "rails", ">= 3.0"
+  s.add_runtime_dependency "bitfields", ">= 0.4.0"
   s.add_development_dependency "ruby-debug19"
   s.add_development_dependency "rspec", "2.6.0"
   s.add_development_dependency "rspec-rails", "2.6.0"
+  s.add_development_dependency "generator_spec"
 end
 
