@@ -4,7 +4,7 @@ require 'generators/localized/localized_generator'
 
 describe LocalizedGenerator do
   include GeneratorSpec::TestCase
-  destination File.expand_path("../../tmp", __FILE__)
+  destination File.expand_path("../../../../tmp", __FILE__)
 
   before do
     prepare_destination
