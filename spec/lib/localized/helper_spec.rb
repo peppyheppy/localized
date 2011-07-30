@@ -19,7 +19,7 @@ describe FoobarController , "locale specific routes", :type => :controller do
     end
 
     it "should error if site is not supported" do
-      expect { 
+      expect {
         root_url(:site => 'cz')
       }.to raise_error(ArgumentError)
     end
@@ -35,6 +35,20 @@ describe FoobarController , "locale specific routes", :type => :controller do
       I18n.locale = original_locale
     end
 
+  end
+
+  describe "when host is an ip address" do
+    it "should not override the hostname if the ip address is local" do
+      @request.host = '127.0.0.1'
+      get :test
+      root_url.should == 'http://127.0.0.1/'
+    end
+
+    it "should not override the hostname if the ip address is local" do
+      @request.host = '64.24.234.234'
+      get :test
+      root_url.should == 'http://64.24.234.234/'
+    end
   end
 
   describe "subdomain locale" do

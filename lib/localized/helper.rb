@@ -16,13 +16,17 @@ module Localized::Helper
   end
 
   def url_for(options = nil)
-    if options.kind_of?(Hash)
+    if options.kind_of?(Hash) and not ip?(request.host)
       options[:host] = with_locale(options.delete(:site))
     end
     super options
   end
 
   protected
+
+  def ip?(hostname)
+    /\A[\d]{1,3}\.[\d]{1,3}\.[\d]{1,3}\.[\d]{1,3}\Z/.match(hostname).present?
+  end
 
   def with_locale(site = nil)
     current_site =  Localized::Config.locale_to_site_map[I18n.locale]
