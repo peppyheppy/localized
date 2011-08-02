@@ -12,7 +12,11 @@ module Localized::Config
   end
 
   def self.default_host_prefix
-    @default_host_prefix ||= self.configuration[:default_host_prefix].to_s
+    @default_host_prefix ||= begin
+      prefix = self.configuration[:default_host_prefix]
+      # support nil or empty prefixes
+      prefix.blank? ? nil : prefix.to_s
+    end
   end
 
   def self.site_to_locale_map

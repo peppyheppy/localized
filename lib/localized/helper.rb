@@ -45,7 +45,15 @@ module Localized::Helper
         caller(5)
     }
 
-    subdomain = (Localized::Config.default_site != site ? "#{site}." : nil)
-    [Localized::Config.default_host_prefix, subdomain, request.domain, request.port_string].join
+    # get the site/subdomain
+    subdomain = (Localized::Config.default_site != site ? "#{site}" : nil)
+
+    # preserve all of other subdomains
+    subdomains = request.subdomains
+    subdomains.delete(Localized::Config.default_host_prefix)
+    if Localized::Config.supported_sites.include?(subdomains.first.to_s.to_sym)
+      subdomains.delete(subdomains.first)
+    end
+    "#{[Localized::Config.default_host_prefix, subdomain, *subdomains, request.domain].compact.join('.')}#{request.port_string}"
   end
 end

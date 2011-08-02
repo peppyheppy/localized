@@ -30,7 +30,7 @@ describe Localized::Config do
 
   it "should have default host prefix" do
     Localized::Config.should respond_to :default_host_prefix
-    Localized::Config.default_host_prefix.should == "www."
+    Localized::Config.default_host_prefix.should == "www"
   end
 
   it "should have supported sites" do

@@ -35,6 +35,26 @@ describe FoobarController , "locale specific routes", :type => :controller do
       I18n.locale = original_locale
     end
 
+    describe "with existing subdomain" do
+      it "should add new subdomain to existing subdomains" do
+        @request.host = "www.admin.mysite.test"
+        root_url(:site => 'it').should == 'http://www.it.admin.mysite.test/'
+      end
+
+      it "should preserve existing subdomains" do
+        @request.host = "www.it.admin.mysite.test"
+        root_url(:site => 'us').should == 'http://www.admin.mysite.test/'
+      end
+    end
+    it "should support ports" do
+      @request.host = "www.it.admin.mysite.test:3009"
+      root_url(:site => 'us').should == 'http://www.admin.mysite.test:3009/'
+    end
+    it "should support a nil or empty prefix" do
+      Localized::Config.stub!(:default_host_prefix).and_return(nil)
+      @request.host = "it.admin.mysite.test"
+      root_url(:site => 'us').should == 'http://admin.mysite.test/'
+    end
   end
 
   describe "when host is an ip address" do

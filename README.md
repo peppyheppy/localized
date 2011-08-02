@@ -13,7 +13,7 @@ subdomain. It also contains a way for overriding the "site" in url helpers.
          127.0.0.1 www.it.mysite.localhost
          127.0.0.1 www.ca.mysite.localhost
 
-3. Create your "change locale widget" using simple url helpers:
+3. Create your "change locale widget" using simple url helpers while assuming that the default site is 'us'.
 
          root_url(:site => :us) # => http://www.mysite.com/
          root_url(:site => :it) # => http://www.it.mysite.com/

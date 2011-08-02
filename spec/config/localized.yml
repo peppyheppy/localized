@@ -1,4 +1,4 @@
-default_host_prefix: 'www.'
+default_host_prefix: 'www'
 default_site: 'us'
 site_locale_map:
   au: 'en-AU'
