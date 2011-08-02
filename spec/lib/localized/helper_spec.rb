@@ -51,6 +51,13 @@ describe FoobarController , "locale specific routes", :type => :controller do
     end
   end
 
+  describe "additional helpers" do
+    it "should have localized_site helper" do
+      get :test
+      controller.localized_site.should == :us
+    end
+  end
+
   describe "subdomain locale" do
 
     it "should set the current locale to that of the subdomain" do

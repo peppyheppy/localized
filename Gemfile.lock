@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    localized (0.0.6)
+    localized (0.0.7)
       bitfields (>= 0.4.0)
       rails (>= 3.0)
 

@@ -22,6 +22,10 @@ module Localized::Helper
     super options
   end
 
+  def localized_site
+    Localized::Config.locale_to_site_map[I18n.locale]
+  end
+
   protected
 
   def ip?(hostname)

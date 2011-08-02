@@ -2,7 +2,7 @@ Gem::Specification.new do |s|
   s.name        = 'localized'
   s.author      = 'Paul Hepworth'
   s.email       = 'paul<dot>hepworth<at>peppyheppy<dot>com'
-  s.version     = '0.0.6'
+  s.version     = '0.0.8'
   s.homepage    = 'https://github.com/peppyheppy/localized'
   s.date        = '2011-07-09'
   s.summary     = "A ruby on rails gem that provides locale setting support through the subdomain (in a box)"
