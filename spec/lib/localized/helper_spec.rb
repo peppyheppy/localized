@@ -92,5 +92,11 @@ describe FoobarController , "locale specific routes", :type => :controller do
       I18n.locale.should == :"it-IT"
     end
 
+    it "should set the current locale to that of the subdomain when there are multiple subdomains" do
+      @request.host = "www.it.admin.example.com"
+      get :test
+      I18n.locale.should == :"it-IT"
+    end
+
   end
 end

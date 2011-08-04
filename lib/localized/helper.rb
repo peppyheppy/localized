@@ -8,7 +8,7 @@ module Localized::Helper
   end
 
   def set_locale
-    key = request.subdomains.last.to_s.to_sym
+    key = site_subdomain(request.subdomains).first.to_s.to_sym
     unless Localized::Config.site_to_locale_map[key]
       key = Localized::Config.default_site
     end
@@ -49,11 +49,17 @@ module Localized::Helper
     subdomain = (Localized::Config.default_site != site ? "#{site}" : nil)
 
     # preserve all of other subdomains
-    subdomains = request.subdomains
-    subdomains.delete(Localized::Config.default_host_prefix)
+    subdomains = site_subdomain(request.subdomains)
     if Localized::Config.supported_sites.include?(subdomains.first.to_s.to_sym)
       subdomains.delete(subdomains.first)
     end
     "#{[Localized::Config.default_host_prefix, subdomain, *subdomains, request.domain].compact.join('.')}#{request.port_string}"
   end
+
+  def site_subdomain(subdomains)
+    subdomains.delete(Localized::Config.default_host_prefix)
+    subdomains
+  end
+
+
 end
