@@ -31,6 +31,10 @@ module Localized::Sites
     # default scope to filter by current locale to site map
     default_scope self.send(Localized::Config.locale_to_site_map[I18n.locale])
   end
+
+  def sites_status
+    @sites_status ||= self.bitfield_values(:sites)
+  end
 end
     SITES
   end
