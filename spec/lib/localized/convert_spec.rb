@@ -2,12 +2,12 @@ require 'spec_helper'
 
 describe Localized::Convert do
   include Localized
+
   before :each do
     Rails.stub!(:root).and_return(Pathname.new(File.join(File.dirname(__FILE__),'..', '..')))
-    I18n.load_path = Dir[File.join('spec/config/locales/*.yml')]
   end
 
-  describe "Locale cache" do
+  describe "Locale cache", :locales => :to_csv do
     it "should return cache keys for each unique key path" do
      Convert.locale_cache.detect { |k,v| k == 'one.two.three' }.should_not be_nil
     end
@@ -49,7 +49,11 @@ describe Localized::Convert do
     end
   end
 
-  describe "CSV export" do
+  describe "CSV export", :locales => :to_csv do
+    before :each do
+      I18n.load_path = Dir[File.join('spec/config/locales/*.yml')]
+    end
+
     it "should convert the locale cache to a CSV file" do
       file = 'spec/test_csv.csv'
       #File.should_not exist file
@@ -86,6 +90,21 @@ describe Localized::Convert do
       rows.last[11].should be_nil
 
       File.delete(file)
+    end
+  end
+
+  describe "CSV import", :locales => :from_csv do
+    it "should update locale files from CSV file" do
+      # TODO:
+      file = 'spec/'
+      # no locale files should exist - remove them!
+      # should import from csv
+        # 1) should update the in memory cache with file contents
+        # 2) should write the in memory cache back out to yml files
+        # 3) it should log/stdout work
+      # should assert that all of the translation files now exist
+      # should assert that any keys that exist in the original locale files but not in the translations files are preserved
+      # should assert the translations for 3 or 4 different cases for each language (loop through csv and compare t(key) with row[n]['Token'] and row[n][locale])
     end
   end
 

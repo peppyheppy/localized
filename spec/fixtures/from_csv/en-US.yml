@@ -1,0 +1,13 @@
+en-US:
+  one:
+    two:
+      three: "three"
+      six: "moroni"
+    four: "hello"
+  five: "special"
+  seven:
+    eight:
+      nine:
+        ten:
+          eleven: "truth"
+  twelve: "awesome"
