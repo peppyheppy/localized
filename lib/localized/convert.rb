@@ -1,4 +1,6 @@
+# coding: UTF-8
 require 'csv'
+require 'psych'
 module Localized::Convert
 
   def self.to_csv(file)
@@ -27,7 +29,7 @@ module Localized::Convert
     end
     content.each do |filename, file_contents|
       File.open("#{Rails.root}/config/locales/#{filename}.yml", "w") do |out|
-        YAML.dump(stringify_keys(filename => file_contents), out)
+        out.puts YAML.dump(stringify_keys(filename => file_contents)).force_encoding('UTF-8')
       end
     end
     nil
@@ -85,7 +87,7 @@ module Localized::Convert
       else
         locale_columns[1..-1].each_with_index do |locale, i|
           local_translations[row[0]] ||= translations[locale] || {}
-          local_translations[row[0]][locale.to_sym] = row[i+1].to_s.force_encoding("UTF-8")
+          local_translations[row[0]][locale.to_sym] = row[i+1] && row[i+1].force_encoding("UTF-8")
         end
       end
     end

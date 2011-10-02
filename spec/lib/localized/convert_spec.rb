@@ -1,4 +1,4 @@
-# encoding: UTF-8
+# coding: UTF-8
 require 'spec_helper'
 describe Localized::Convert do
   include Localized
@@ -112,7 +112,7 @@ describe Localized::Convert do
       Dir[spec_config_locales].size.should == 4 # one for each language
 
       # cleanup
-      FileUtils.rm Dir[spec_config_locales]
+      # FileUtils.rm Dir[spec_config_locales]
       I18n.load_path = original_path
     end
   end

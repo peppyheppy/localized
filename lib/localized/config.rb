@@ -1,4 +1,5 @@
-require 'yaml'
+require "psych"
+require "yaml"
 
 module Localized::Config
   def self.configuration
@@ -47,7 +48,7 @@ module Localized::Config
 
   def self.symobolize_keys_and_values(hash_name)
     new_hash = HashWithIndifferentAccess.new({})
-    hash_name.each do |k,v| 
+    hash_name.each do |k,v|
       if v.is_a? Hash
         new_hash[k.to_sym] = symobolize_keys_and_values(v)
       else

@@ -9,6 +9,9 @@ require 'localized/helper'
 require 'localized/convert'
 require 'bitfields'
 
+# set default encoding
+Encoding.default_internal = 'UTF-8'
+
 # load the modules into the rails world
 [
   ActionView::Base,
