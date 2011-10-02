@@ -15,6 +15,24 @@ module Localized::Convert
     nil
   end
 
+  def self.from_csv(file)
+    new_translations = build_translation_hash(file)
+    # write out translations to files
+    content = translations
+    new_translations.each do |token, locales|
+      locales.each do |locale, value|
+        content[locale] ||= {}
+        content[locale] = formalize_translations(content[locale], token, value)
+      end
+    end
+    content.each do |filename, file_contents|
+      File.open("#{Rails.root}/config/locales/#{filename}.yml", "w") do |out|
+        YAML.dump(stringify_keys(filename => file_contents), out)
+      end
+    end
+    nil
+  end
+
   def self.load_cache
     I18n.backend.send(:init_translations)
   end
@@ -39,6 +57,40 @@ module Localized::Convert
   end
 
   private
+
+  def self.stringify_keys(h)
+    h.inject({}) { |a, (k,v)| a[k.to_s] = v.is_a?(Hash) ? stringify_keys(v) : v; a }
+  end
+
+  def self.formalize_translations(existing, token, value)
+    token_path = token.split('.')
+    if token_path.size == 1
+      existing[token] = value
+    else
+      first_token = token_path.first
+      remaining_token = token_path[1..-1].join('.')
+      existing[first_token] ||= {}
+      existing[first_token] = formalize_translations(existing[first_token], remaining_token, value)
+    end
+    existing
+  end
+
+  def self.build_translation_hash(file)
+    # build a new hash for translations
+    locale_columns = []
+    local_translations = {}
+    CSV.foreach(file) do |row|
+      if row[0] == "Token"
+        locale_columns = row
+      else
+        locale_columns[1..-1].each_with_index do |locale, i|
+          local_translations[row[0]] ||= translations[locale] || {}
+          local_translations[row[0]][locale.to_sym] = row[i+1]
+        end
+      end
+    end
+    local_translations
+  end
 
   def self.formalize_keys(key, value)
     pairs = []

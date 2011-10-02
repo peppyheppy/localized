@@ -9,7 +9,7 @@ describe Localized::Convert do
 
   describe "Locale cache", :locales => :to_csv do
     it "should return cache keys for each unique key path" do
-     Convert.locale_cache.detect { |k,v| k == 'one.two.three' }.should_not be_nil
+      Convert.locale_cache.detect { |k,v| k == 'one.two.three' }.should_not be_nil
     end
 
     it "should return a list of each locale for each key" do
@@ -95,16 +95,24 @@ describe Localized::Convert do
 
   describe "CSV import", :locales => :from_csv do
     it "should update locale files from CSV file" do
-      # TODO:
-      file = 'spec/'
-      # no locale files should exist - remove them!
-      # should import from csv
-        # 1) should update the in memory cache with file contents
-        # 2) should write the in memory cache back out to yml files
-        # 3) it should log/stdout work
-      # should assert that all of the translation files now exist
-      # should assert that any keys that exist in the original locale files but not in the translations files are preserved
-      # should assert the translations for 3 or 4 different cases for each language (loop through csv and compare t(key) with row[n]['Token'] and row[n][locale])
+      # setup
+      original_path = I18n.load_path
+      spec_config_locales = 'spec/config/locales/*.yml'
+      FileUtils.rm Dir[spec_config_locales]
+
+      Convert.from_csv('spec/fixtures/translations.csv')
+      I18n.load_path = Dir[spec_config_locales]
+
+      Convert.load_cache
+      Convert.locale_cache['new.token.yo'][:'en-US'].should == "United States"
+      Convert.locale_cache['new.token.yo'][:'es-ES'].should == "Spain"
+      Convert.locale_cache['new.token.yo'][:'nl-NL'].should == "Netherlands"
+      Convert.locale_cache['twelve'][:'en-US'].should == "awesome"
+      Dir[spec_config_locales].size.should == 3 # one for each language
+
+      # cleanup
+      FileUtils.rm Dir[spec_config_locales]
+      I18n.load_path = original_path
     end
   end
 
