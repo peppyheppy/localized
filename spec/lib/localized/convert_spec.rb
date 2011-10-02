@@ -1,5 +1,5 @@
+# encoding: UTF-8
 require 'spec_helper'
-
 describe Localized::Convert do
   include Localized
 
@@ -108,7 +108,8 @@ describe Localized::Convert do
       Convert.locale_cache['new.token.yo'][:'es-ES'].should == "Spain"
       Convert.locale_cache['new.token.yo'][:'nl-NL'].should == "Netherlands"
       Convert.locale_cache['twelve'][:'en-US'].should == "awesome"
-      Dir[spec_config_locales].size.should == 3 # one for each language
+      Convert.locale_cache['japanese'][:'ja-JP'].should == "ここに入力"
+      Dir[spec_config_locales].size.should == 4 # one for each language
 
       # cleanup
       FileUtils.rm Dir[spec_config_locales]

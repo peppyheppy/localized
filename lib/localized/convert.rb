@@ -85,7 +85,7 @@ module Localized::Convert
       else
         locale_columns[1..-1].each_with_index do |locale, i|
           local_translations[row[0]] ||= translations[locale] || {}
-          local_translations[row[0]][locale.to_sym] = row[i+1]
+          local_translations[row[0]][locale.to_sym] = row[i+1].to_s.force_encoding("UTF-8")
         end
       end
     end
