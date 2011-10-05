@@ -8,7 +8,7 @@ Gem::Specification.new do |s|
   s.summary     = "A ruby on rails gem that provides locale setting support through the subdomain (in a box)"
   s.description = "This gem allows you to set locale using a subdomain and url helper support for switching sites."
   s.files       = s.files = `git ls-files`.split("\n")
-  s.add_runtime_dependency "psych"
+  # s.add_runtime_dependency "psych"
   s.add_runtime_dependency "rails", ">= 3.0"
   s.add_runtime_dependency "bitfields", ">= 0.4.0"
   s.add_development_dependency "ruby-debug19"

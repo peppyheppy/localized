@@ -1,4 +1,4 @@
-require "psych"
+# require "psych"
 require "yaml"
 
 module Localized::Config

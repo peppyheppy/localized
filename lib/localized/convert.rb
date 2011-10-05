@@ -1,6 +1,6 @@
 # coding: UTF-8
 require 'csv'
-require 'psych'
+# require 'psych'
 module Localized::Convert
 
   def self.to_csv(file)
