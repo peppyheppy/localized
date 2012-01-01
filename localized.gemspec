@@ -15,5 +15,11 @@ Gem::Specification.new do |s|
   s.add_development_dependency "rspec", "2.6.0"
   s.add_development_dependency "rspec-rails", "2.6.0"
   s.add_development_dependency "generator_spec"
+  s.add_development_dependency "guard"
+  s.add_development_dependency "guard-bundler"
+  s.add_development_dependency "guard-compass"
+  s.add_development_dependency "guard-spork", "~> 0.3"
+  s.add_development_dependency "guard-rspec", "~> 0.5"
+  s.add_development_dependency "growl"
 end
 

@@ -56,7 +56,7 @@ describe Localized::Convert do
 
     it "should convert the locale cache to a CSV file" do
       file = 'spec/test_csv.csv'
-      #File.should_not exist file
+      # File.should_not exist file
       Convert.to_csv(file)
       File.should exist file
       rows = CSV.read(file)
@@ -77,17 +77,18 @@ describe Localized::Convert do
 
       # data row
       # ["one.two.three", "three", nil, nil, nil, nil, nil, nil, nil, nil, nil, "another", nil]
-      rows.last[0].should == "seven.eight.nine.ten.eleven"
-      rows.last[1].should == "truth"
-      rows.last[2].should be_nil
-      rows.last[3].should be_nil
-      rows.last[4].should be_nil
-      rows.last[5].should be_nil
-      rows.last[6].should be_nil
-      rows.last[7].should be_nil
-      rows.last[8].should be_nil
-      rows.last[9].should be_nil
-      rows.last[11].should be_nil
+      last = rows[-3]
+      last[0].should == "seven.eight.nine.ten.eleven"
+      last[1].should == "truth"
+      last[2].should be_nil
+      last[3].should be_nil
+      last[4].should be_nil
+      last[5].should be_nil
+      last[6].should be_nil
+      last[7].should be_nil
+      last[8].should be_nil
+      last[9].should be_nil
+      last[11].should be_nil
 
       File.delete(file)
     end
@@ -107,6 +108,8 @@ describe Localized::Convert do
       Convert.locale_cache['new.token.yo'][:'en-US'].should == "United States"
       Convert.locale_cache['new.token.yo'][:'es-ES'].should == "Spain"
       Convert.locale_cache['new.token.yo'][:'nl-NL'].should == "Netherlands"
+      Convert.locale_cache['seven.eight.nine.ten.eleven'][:'en-US'].should == "truth"
+      Convert.locale_cache['seven.yo.non.existent'][:'en-US'].should == "Hi There"
       Convert.locale_cache['twelve'][:'en-US'].should == "awesome"
       Convert.locale_cache['japanese'][:'ja-JP'].should == "ここに入力"
       Dir[spec_config_locales].size.should == 4 # one for each language

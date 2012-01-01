@@ -67,9 +67,9 @@ module Localized::Convert
   def self.formalize_translations(existing, token, value)
     token_path = token.split('.')
     if token_path.size == 1
-      existing[token] = value
+      existing[token.to_sym] = value
     else
-      first_token = token_path.first
+      first_token = token_path.first.to_sym
       remaining_token = token_path[1..-1].join('.')
       existing[first_token] ||= {}
       existing[first_token] = formalize_translations(existing[first_token], remaining_token, value)
